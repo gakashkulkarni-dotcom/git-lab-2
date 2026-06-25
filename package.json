@@ -1,0 +1,9 @@
+{ 
+    "name": "git-lab-cli-2", 
+    "version": "1.0.0", 
+    "description": "Synthetic repository for Git querying workflows.", 
+    "private": true, 
+    "scripts": { 
+        "start": "node src/cli.js" 
+    }
+}
