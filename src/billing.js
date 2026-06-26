@@ -8,7 +8,15 @@ function annualRevenue(customers) {
   return calculateRevenue(customers) * 12;
 }
 
+function applyDiscount(
+  amount,
+  percentage
+) {
+  return amount - amount * (percentage / 100);
+}
+
 module.exports = {
   calculateRevenue,
-  annualRevenue
+  annualRevenue,
+  applyDiscount
 };
