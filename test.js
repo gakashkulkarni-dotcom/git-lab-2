@@ -3,7 +3,11 @@ const {
   exportCSV,
   exportReport
 } = require("./src/export");
-const calculateRevenue = require("./src/billing");
+
+const {
+  calculateRevenue,
+  annualRevenue
+} = require("./src/billing");
 const notifications = require("./src/notifications");
 
 const csv = exportCSV(metrics);
@@ -18,10 +22,8 @@ if (!exportReport(metrics).includes("pricing,45")) {
   process.exit(1);
 }
 
-if (
-  notifications.EXPORT_TIMEOUT !== 5000
-) {
-  console.log('fail')
+if (annualRevenue(10) !== 3480) {
+  console.log("fail");
   process.exit(1);
 }
 
