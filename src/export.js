@@ -3,11 +3,15 @@ function exportCSV(metrics) {
     `Exporting ${metrics.length} rows`
   );
 
-  return metrics
-    .map(
+  const generatedAt =
+    new Date().toISOString();
+
+  return [
+    `generated-at,${generatedAt}`,
+    ...metrics.map(
       row => `${row.page},${row.visits}`
     )
-    .join("\n");
+  ].join("\n");
 }
 
 module.exports = exportCSV;
