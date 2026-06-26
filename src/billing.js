@@ -1,5 +1,7 @@
+const PLAN_PRICE = 29;
+
 function calculateRevenue(customers) {
-  return customers * 29;
+  return customers * PLAN_PRICE;
 }
 
 module.exports = calculateRevenue;
