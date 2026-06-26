@@ -1,4 +1,4 @@
-const EXPORT_TIMEOUT = 3000;
+const EXPORT_TIMEOUT = 5000;
 const MAX_RETRIES = 3;
 
 module.exports = {

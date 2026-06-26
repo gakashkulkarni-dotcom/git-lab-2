@@ -20,7 +20,7 @@ if (
 }
 
 if (
-  notifications.EXPORT_TIMEOUT !== 3000
+  notifications.EXPORT_TIMEOUT !== 5000
 ) {
   console.log('fail')
   process.exit(1);
