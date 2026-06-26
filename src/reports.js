@@ -1,3 +1,12 @@
+function filterReports(
+  metrics,
+  minimumVisits
+) {
+  return metrics.filter(
+    metric => metric.visits >= minimumVisits
+  );
+}
+
 function generateReport(metrics) {
   const sortedMetrics = [...metrics].sort(
     (a, b) => b.visits - a.visits
@@ -10,4 +19,7 @@ function generateReport(metrics) {
     .join("\n");
 }
 
-module.exports = generateReport;
+module.exports = {
+  generateReport,
+  filterReports
+};
