@@ -14,4 +14,11 @@ function exportCSV(metrics) {
   ].join("\n");
 }
 
-module.exports = exportCSV;
+function exportReport(metrics) {
+  return exportCSV(metrics);
+}
+
+module.exports = {
+  exportCSV,
+  exportReport
+};

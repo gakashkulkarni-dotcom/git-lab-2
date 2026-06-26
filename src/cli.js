@@ -1,6 +1,12 @@
 const metrics = require("./metrics");
-const generateReport = require("./reports");
-const exportCSV = require("./export");
+const {
+  generateReport,
+  filterReports
+} = require("./reports");
+const {
+  exportCSV,
+  exportReport
+} = require("./export");
 const calculateRevenue = require("./billing");
 const notifications = require("./notifications");
 
@@ -11,7 +17,23 @@ console.log(
 console.log();
 
 console.log(
+  "Popular Pages"
+);
+
+console.log(
+  filterReports(metrics, 40)
+);
+
+console.log();
+
+console.log(
   exportCSV(metrics)
+);
+
+console.log();
+
+console.log(
+  exportReport(metrics)
 );
 
 console.log();
