@@ -1,3 +1,6 @@
 const metrics = require("./metrics"); 
+const generateReport = require("./reports");
 
-console.log(metrics);
+console.log(
+  generateReport(metrics)
+);
