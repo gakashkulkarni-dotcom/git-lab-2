@@ -4,4 +4,11 @@ function calculateRevenue(customers) {
   return customers * PLAN_PRICE;
 }
 
-module.exports = calculateRevenue;
+function annualRevenue(customers) {
+  return calculateRevenue(customers) * 12;
+}
+
+module.exports = {
+  calculateRevenue,
+  annualRevenue
+};
