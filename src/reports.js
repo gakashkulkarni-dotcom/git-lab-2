@@ -1,5 +1,9 @@
 function generateReport(metrics) {
-  return metrics
+  const sortedMetrics = [...metrics].sort(
+    (a, b) => b.visits - a.visits
+  );
+
+  return sortedMetrics
     .map(
       row => `${row.page}: ${row.visits}`
     )

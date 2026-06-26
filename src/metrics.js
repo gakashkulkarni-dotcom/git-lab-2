@@ -10,5 +10,9 @@ module.exports = [
   {
     page: "contact",
     visits: 18
+  },
+  {
+    page: "about",
+    visits: 30
   }
 ];
