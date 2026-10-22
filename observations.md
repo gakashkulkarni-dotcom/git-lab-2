@@ -67,12 +67,52 @@ Answer (why Git doesn't sync automatically): Git updates a remote ref only when 
 
 ## Step 1
 
+`git log --all --oneline -- .env` returned one commit: 879d678 (Placeholder env-file added). This is the commit that introduced .env, and it was the tip of both main and release-1.1.
+
+`git show HEAD:.env` printed: `API_KEY=analytics-production-secret`
+
+The secret was also present in dde0563 (the Problem 1 observations commit), because that commit inherited the file from its parent. `git log -- .env` lists only commits that changed the path, so it shows 879d678 alone.
+
 ## Step 2
+
+HEAD before rewrite: dde05639fdde9d78e33120d08d17d5a7dfd2f9d8
 
 ## Step 3
 
+filter-branch processed all 21 commits and reported 11 refs as rewritten: the 5 local branches (main, release-1.0, release-1.1, feature-billing, feature-reporting) and 6 remote-tracking refs (origin/main, origin/release-1.0, origin/release-1.1, origin/feature-billing, origin/feature-reporting, origin/release-reporting).
+
+One warning, `Ref 'refs/remotes/origin/main' is unchanged`, appeared because origin/HEAD is a symbolic ref to origin/main. filter-branch reached origin/main a second time after it had already been rewritten.
+
+filter-branch also saved the old refs as 11 backups under refs/original/. These still pointed to the history containing .env, so they were deleted with `git update-ref -d`. Otherwise `git log --all` would still find the secret.
+
+Every commit SHA changed, including commits that never contained .env: the root commit went from 6845d08 to 802c0f8, and release-1.0 from be2e61e to bb1016e. filter-branch recreates each commit object, and because every commit embeds its parent's SHA, a new root commit cascades new SHAs through every descendant.
+
 ## Step 4
+
+- `git log --all --oneline -- .env`: no output
+- `git rev-parse HEAD`: 6d0d8ae18aeaf7d00d72d8ddf850964671606fc3 (differs from dde0563 in Step 2)
+- `git show HEAD:.env`: `fatal: path '.env' does not exist in 'HEAD'`
+- `ls -la`: no .env in the working tree (only .git, observations.md, package.json, README.md, src, test.js)
 
 ## Step 5
 
+`git push origin --all --force` force-updated 5 branches:
+
+- feature-billing: 3087b30 → 49796e5
+- feature-reporting: 8423755 → bd27b51
+- main: dde0563 → 6d0d8ae
+- release-1.0: be2e61e → bb1016e
+- release-1.1: 879d678 → 3b406b4
+
+`git push origin --tags --force` printed `Everything up-to-date` (the repository has no tags).
+
+`--all` pushes only local branches, so release-reporting (which exists only on the remote) was not updated. It was force-pushed separately with `git push origin feature-reporting:release-reporting --force` (8423755 → bd27b51).
+
+A force-push was required because the rewritten commits are not descendants of the commits the remote held, so a normal push would be rejected as non-fast-forward.
+
 ## Step 6
+
+- `git log --all --oneline -- .env`: no output
+- `git show HEAD:.env`: `fatal: path '.env' does not exist in 'HEAD'`
+- `ls -la`: no .env
+- `git remote show origin`: all 6 branches present (feature-billing, feature-reporting, main, release-1.0, release-1.1, release-reporting)
